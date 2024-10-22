@@ -23,6 +23,7 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        let pass = false;
         const target = interaction.options.getUser('target');
         const moneyAmount = interaction.options.getNumber('moneyamount');
 
@@ -31,11 +32,13 @@ module.exports = {
                 economy[target.id].money = moneyAmount;
                 fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
                 await interaction.reply(`Set ${target}'s money to ${moneyAmount}!`);
+                pass = true;
             } else {
                 await interaction.reply(`${target} does not have an account`);
             }
         } else {
             await interaction.reply('you do not have perms to use this command :c');
         }
+        console.log(`${interaction.user.username} \(${interaction.user.id}\) used command /setmoney ${target.username} \(${target.id}\) ${moneyAmount}; pass: ${pass}`);
     },
 };

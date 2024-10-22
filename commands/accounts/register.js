@@ -12,7 +12,7 @@ module.exports = {
         .setName('register')
         .setDescription('register your account to the database'),
     async execute(interaction) {
-        
+        let pass = false;        
         const uuid = interaction.user.id;
         let base = {
             version: '1.0',
@@ -23,8 +23,10 @@ module.exports = {
             economy[uuid] = base;
             fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
             await interaction.reply('Account created successfully. type /balance to view your balance!');
+            pass = true;
         } else {
             await interaction.reply('Account already exists.');
         }
+        console.log(`${interaction.user.username} \(${interaction.user.id}\) used command /register; pass: ${pass}`);
     },
 };
