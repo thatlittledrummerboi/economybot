@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const { bot_token } = require('./config.json');
+const {parseEconomy} = require('./handyman.js');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

@@ -30,7 +30,7 @@ module.exports = {
         if (admins.includes(interaction.user.id)) {
             if (target.id in economy) {
                 economy[target.id].money = moneyAmount;
-                fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
+                //fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
                 await interaction.reply(`Set ${target}'s money to ${moneyAmount}!`);
                 pass = true;
             } else {
