@@ -17,11 +17,17 @@ async function compareVersions(userAccount) {
         "publicBalanceVisibility": null,
         "level": null,
         "xp": null,
+        "owns": {},
+        "stats": {
+            "highestMoney": 0,
+            "allTimeMoney": 0,
+        },
     };
     const ver = userAccount.version
     const versions = {
-        "latest": 1,
+        "latest": 2,
         "1.0": 1,
+        "1.1": 2,
     };
 
     if (versions[ver] < versions['latest']) {
@@ -31,10 +37,23 @@ async function compareVersions(userAccount) {
         exit.level = userAccount.level ?? 1;
         exit.xp = userAccount.xp ?? 0;
 
+        for (let i = 0; i<exit.owns.length; i++) {
+            exit.owns[i] = userAccount.owns[i] ?? (typeof(userAccount.owns[i]) == number) ? 0 : "";
+        }
+
+        for (let i = 0; i<exit.stats.length;) {
+            exit.stats[i] = userAccount.stats[i] ?? (typeof(userAccount.stats[i] == number)) ? 0 : "";
+        }
+
         return(exit);
     } else {
         return(0);
     }
 }
 
-module.exports = { parseJSON, compareVersions };
+async function updatePlayerStats(userAccount) {
+    if(userAccount.money > userAccount.stats.highestMoney) userAccount.stats.highestMoney = userAccount.money;
+    if(userAccount.money > userAccount.stats.allTimeMoney) userAccount.stats.allTimeMoney = userAccount.money;
+}
+
+module.exports = { parseJSON, compareVersions, updatePlayerStats };

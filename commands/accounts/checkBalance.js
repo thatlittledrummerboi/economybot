@@ -20,7 +20,7 @@ module.exports = {
         if (user === null || user.id === interaction.user.id) {
             if (uuid in economy) {
                 if (await compareVersions(economy[uuid]) != 0){ economy[uuid] = await compareVersions(economy[uuid]); await fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});}
-                await interaction.reply(`You have ${economy[uuid].money} money!`);
+                await interaction.reply(`You have **${economy[uuid].money}** money!`);
                 pass = true;
             } else {
                 await interaction.reply("You don't have an account yet! Type /register to register an account.");

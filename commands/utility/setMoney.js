@@ -1,11 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { admins } = require('../../config.json');
 const fs = require('node:fs');
-let economy;
-fs.readFile('economy.json', 'utf-8', function (err, data) {
-    if (err) throw err;
-    economy = JSON.parse(data);
-});
+const {parseJSON, updatePlayerStats} = require('../../handyman');
 
 module.exports = {
     cooldown: 0,
@@ -23,6 +19,7 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        let economy = await parseJSON('economy.json');
         let pass = false;
         const target = interaction.options.getUser('target');
         const moneyAmount = interaction.options.getNumber('moneyamount');
@@ -30,7 +27,8 @@ module.exports = {
         if (admins.includes(interaction.user.id)) {
             if (target.id in economy) {
                 economy[target.id].money = moneyAmount;
-                //fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
+                await updatePlayerStats(economy[target.id]);
+                fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
                 await interaction.reply(`Set ${target}'s money to ${moneyAmount}!`);
                 pass = true;
             } else {

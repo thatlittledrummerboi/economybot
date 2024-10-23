@@ -12,11 +12,18 @@ module.exports = {
         let pass = false;        
         const uuid = interaction.user.id;
         let base = {
-            version: '1.0',
+            version: '1.1',
             money: 0,
             publicBalanceVisibility: false,
             level: 1,
             xp: 0,
+            owns: {
+                
+            },
+            stats: {
+                highestMoney: 0,
+                allTimeMoney: 0,
+            },
         };
 
         if(!(uuid in economy)) {
