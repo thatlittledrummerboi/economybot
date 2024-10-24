@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { admins } = require('../../config.json');
+const { parseJSON } = require('../../handyman');
+const fs = require('node:fs');
 
 module.exports = {
     cooldown: 0,
@@ -10,6 +12,9 @@ module.exports = {
         let pass = false;
 
         if (admins.includes(interaction.user.id)) {
+            let economy = parseJSON('economy.json');
+            economy[interaction.user.id].stats.commandsExecuted++;
+            await fs.writeFile('../../economy.json', JSON.parse(economy), err => {if (err) throw err;});
             await interaction.reply('test!');
             pass = true;
         } else {

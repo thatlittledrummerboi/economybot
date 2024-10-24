@@ -23,6 +23,7 @@ module.exports = {
             stats: {
                 highestMoney: 0,
                 allTimeMoney: 0,
+                commandsExecuted: 1,
             },
         };
 

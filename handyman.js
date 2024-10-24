@@ -21,13 +21,15 @@ async function compareVersions(userAccount) {
         "stats": {
             "highestMoney": 0,
             "allTimeMoney": 0,
+            "commandsExecuted": 0,
         },
     };
     const ver = userAccount.version
     const versions = {
-        "latest": 2,
+        "latest": 3,
         "1.0": 1,
         "1.1": 2,
+        "1.2": 3,
     };
 
     if (versions[ver] < versions['latest']) {
@@ -44,6 +46,8 @@ async function compareVersions(userAccount) {
         for (let i = 0; i<exit.stats.length;) {
             exit.stats[i] = userAccount.stats[i] ?? (typeof(userAccount.stats[i] == number)) ? 0 : "";
         }
+
+        exit.stats.commandsExecuted = userAccount.stats.commandsExecuted ?? 0;
 
         return(exit);
     } else {

@@ -13,9 +13,9 @@ module.exports = {
         let uuid = interaction.user.id;
         let leveledUp = false;
         let rewards = {
-            "1": [5, 5],
-            "2": [7, 10],
-            "3": [10, 15],
+            "1": [20, 25],
+            "2": [25, 30],
+            "3": [35, 35],
         }; 
         if (uuid in economy) {
             if (await compareVersions(economy[uuid]) != 0){ economy[uuid] = await compareVersions(economy[uuid]); await fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});}
@@ -29,12 +29,12 @@ module.exports = {
             }
             await interaction.reply((leveledUp) ? `you earned **${rewards[economy[uuid].level - 1][0]}** money and gained **${rewards[economy[uuid].level - 1][1]}** XP, which leveled you up to level **${economy[uuid].level}**!` : `you earned **${rewards[economy[uuid].level][0]}** money and gained **${rewards[economy[uuid].level][1]}** XP!`);
             await updatePlayerStats(economy[uuid]);
+            economy[uuid].stats.commandsExecuted++;
             await fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
             pass = true;
         } else {
             interaction.reply('You need an account to earn money! type /register to register your account!');
         }
-        await updatePlayerStats(economy[uuid]);
         console.log(`${interaction.user.username} (${interaction.user.id}) used command /balance; pass: ${pass}`);
     },
 };

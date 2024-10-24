@@ -28,7 +28,8 @@ module.exports = {
             if (target.id in economy) {
                 economy[target.id].money = moneyAmount;
                 await updatePlayerStats(economy[target.id]);
-                fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
+                economy[interaction.user.id].stats.commandsExecuted++;
+                await fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});
                 await interaction.reply(`Set ${target}'s money to ${moneyAmount}!`);
                 pass = true;
             } else {

@@ -20,6 +20,8 @@ module.exports = {
         if (user == undefined || user.id == interaction.user.id) {
             if(uuid in economy) {
                 await interaction.reply(`you are level **${economy[uuid].level}** and you have **${economy[uuid].xp}**XP (**${economy[uuid].xp}**/**${economy[uuid].level * 100}**XP for level **${economy[uuid].level + 1}**)`);
+                economy[uuid].stats.commandsExecuted++;
+                await fs.writeFile('../../economy.json', JSON.parse(economy), err=> {if (err) throw err;});
                 pass = true;
             } else {
                 await interaction.reply('You don\'t have an account yet! type /register to register an account!');
@@ -27,6 +29,8 @@ module.exports = {
         } else {
             if (user.id in economy) {
                 await interaction.reply(`**${user}** is level **${economy[user.id].level}** and they have **${economy[user.id].xp}**XP (**${economy[user.id].xp}**/**${economy[user.id].level * 100}**XP for level **${economy[user.id].level + 1}**)`);
+                economy[uuid].stats.commandsExecuted++;
+                await fs.writeFile('../../economy.json', JSON.parse(economy), err=> {if (err) throw err;});
                 pass = true;
             } else {
                 await interaction.reply(`${user} does not have an account!`);

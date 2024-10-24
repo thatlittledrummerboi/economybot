@@ -19,6 +19,7 @@ module.exports = {
         const user = interaction.options.getUser('user');
         if (user === null || user.id === interaction.user.id) {
             if (uuid in economy) {
+                economy[uuid].stats.commandsExecuted++;
                 if (await compareVersions(economy[uuid]) != 0){ economy[uuid] = await compareVersions(economy[uuid]); await fs.writeFile('economy.json', JSON.stringify(economy), err => {if(err) throw err;});}
                 await interaction.reply(`You have **${economy[uuid].money}** money!`);
                 pass = true;
@@ -28,6 +29,7 @@ module.exports = {
         } else {
             if (economy[user.id]?.publicBalanceVisibility === true || admins.includes(user.id)) {
                 if (user.id in economy) {
+                    economy[uuid].stats.commandsExecuted++;
                     if (await compareVersions(economy[user.id])!= 0) { economy[user.id] = await compareVersions(economy[user.id]); await fs.writeFile('economy.json', JSON.stringify(economy), err => {if (err) throw err;});}
                     await interaction.reply(`${user} has ${economy[user.id].money} money!`);
                     pass = true;
